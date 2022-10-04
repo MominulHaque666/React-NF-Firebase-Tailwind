@@ -1,8 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -12,6 +15,7 @@ const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState([]);
+
   // save users in a table and save liked movies in an array in database
   function signUp(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
@@ -24,6 +28,16 @@ export function AuthContextProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    // signInWithPopup(auth, provider);
+    const res = signInWithRedirect(auth, provider);
+    console.log(res.user);
+    setDoc(doc(db, "users", user.email), {
+      savedShows: [],
+    });
+  };
+
   function logOut() {
     return signOut(auth);
   }
@@ -32,6 +46,7 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log("User", currentUser);
     });
     return () => {
       unsubscribe();
@@ -39,7 +54,7 @@ export function AuthContextProvider({ children }) {
   });
 
   return (
-    <AuthContext.Provider value={{ signUp, logIn, logOut, user }}>
+    <AuthContext.Provider value={{ googleSignIn, signUp, logIn, logOut, user }}>
       {children}
     </AuthContext.Provider>
   );

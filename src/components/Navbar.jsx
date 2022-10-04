@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
+import GoogleButton from "react-google-button";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+  const { googleSignIn, googleUser } = UserAuth();
   const { user, logOut } = UserAuth();
   const navigate = useNavigate();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (googleUser != null) {
+      navigate("/account");
+    }
+  }, [googleUser]);
 
   const handleLogout = async () => {
     try {
@@ -42,6 +58,9 @@ const Navbar = () => {
               Sign Up
             </button>
           </Link>
+          <div className="max-w-[240px] m-auto py-4">
+            <GoogleButton type="dark" onClick={handleGoogleSignIn} />
+          </div>
         </div>
       )}
     </div>
