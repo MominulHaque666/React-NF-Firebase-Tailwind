@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/React-NF-Firebase-Tailwind/static/css/main.70aa378c.css",
+    "main.js": "/React-NF-Firebase-Tailwind/static/js/main.dcc596fc.js",
+    "index.html": "/React-NF-Firebase-Tailwind/index.html",
+    "main.70aa378c.css.map": "/React-NF-Firebase-Tailwind/static/css/main.70aa378c.css.map",
+    "main.dcc596fc.js.map": "/React-NF-Firebase-Tailwind/static/js/main.dcc596fc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.70aa378c.css",
+    "static/js/main.dcc596fc.js"
+  ]
+}
